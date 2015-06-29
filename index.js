@@ -27,7 +27,8 @@ function request(options, callback) {
     encoding: 'utf8',
     // If the callback body is buffer, it can hanlder document pipe simply
     isBuffer: false,
-    json: false
+    json: false,
+    hasContentLength: true
   };
 
   if (util.isString(options)) {
@@ -42,7 +43,9 @@ function request(options, callback) {
       opts.url += '?' + querystring.stringify(opts.data);
     } else {
       opts.data = JSON.stringify(opts.data);
-      opts.headers['Content-Length'] = opts.data.length;
+      if(opts.hasContentLength) {
+        opts.headers['Content-Length'] = opts.data.length;
+      }
     }
   }
 
